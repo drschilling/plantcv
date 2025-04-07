@@ -8,6 +8,7 @@ import plantcv.parallel
 import plantcv.utils
 import tempfile
 import shutil
+from joblib import Parallel, delayed
 
 
 # Parse command-line arguments
@@ -104,8 +105,7 @@ def main():
     # Parallel image processing time
     multi_start_time = time.time()
     print("Processing images... ", file=sys.stderr)
-    cluster_client = plantcv.parallel.create_dask_cluster(cluster=config.cluster, cluster_config=config.cluster_config)
-    plantcv.parallel.multiprocess(jobs=jobs, client=cluster_client)
+    plantcv.parallel.multiprocess(jobs=jobs)
     multi_clock_time = time.time() - multi_start_time
     print(f"Processing images took {multi_clock_time} seconds.", file=sys.stderr)
     ###########################################
